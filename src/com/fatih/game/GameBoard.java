@@ -1,12 +1,20 @@
 package com.fatih.game;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GameBoard {
 
-	private static final char EMPTY_CELL_CHAR = '-';
+	public static final char EMPTY_CELL_CHAR = '-';
 	private int length;
-	Character[][] board;
+	private Character[][] board;
+
+	public Character[][] getBoardCopy() {
+		return Arrays.copyOf(board, board.length);
+	}
 
 	public GameBoard(int length) {
 		this.length = length;
@@ -29,14 +37,14 @@ public class GameBoard {
 	}
 
 	public boolean isEmpty(int x, int y) {
-		return board[x-1][y-1] == EMPTY_CELL_CHAR;
+		return board[x - 1][y - 1] == EMPTY_CELL_CHAR;
 	}
-	
+
 	public void setValue(int x, int y, Character value) {
-		setRealValue(x-1, y-1, value);
+		setRealValue(x - 1, y - 1, value);
 	}
-	
-	public void setRealValue(int x, int y, Character value) {
+
+	private void setRealValue(int x, int y, Character value) {
 		board[x][y] = value;
 	}
 
@@ -59,4 +67,42 @@ public class GameBoard {
 	private String getPadded(String e) {
 		return String.format("%2s ", e);
 	}
+
+	public boolean isGameFinished() {
+		return !isThereAnyEmptyCell() || hasSomebodyWin();
+	}
+
+	private boolean hasSomebodyWin() {
+		Character[] downCross = new Character[board.length];
+		Character[] upperCross = new Character[board.length];
+		for (int i = 0; i < board.length; i++) {
+			if (isCharactersAllTheSame(board[i])) {
+				return true;
+			}
+			Character[] column = new Character[board.length];
+			for (int j = 0; j < board.length; j++) {
+				column[j] = board[j][i];
+			}
+			if (isCharactersAllTheSame(column)) {
+				return true;
+			}
+			downCross[i] = board[i][i];
+			upperCross[i] = board[board.length - 1 - i][i];
+		}
+		return isCharactersAllTheSame(upperCross) || isCharactersAllTheSame(downCross);
+
+	}
+
+	private boolean isCharactersAllTheSame(Character[] characters) {
+		HashSet<Character> characterSet = new HashSet<Character>(Arrays.asList(characters));
+		return characterSet.size() == 1 && !characterSet.contains(EMPTY_CELL_CHAR);
+	}
+
+	private Boolean isThereAnyEmptyCell() {
+		Optional<Character> emptyCell = Arrays.stream(board) // 'array' is two-dimensional
+				.flatMap(Arrays::stream).collect(Collectors.toList()).stream().filter(e -> e.equals(EMPTY_CELL_CHAR))
+				.findAny();
+		return emptyCell.isPresent();
+	}
+	
 }
