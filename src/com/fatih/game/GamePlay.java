@@ -25,7 +25,6 @@ public class GamePlay {
 		playerList.add(firstPlayer);
 		playerList.add(secondPlayer);
 		playerList.add(computer);
-		
 
 		Collections.shuffle(playerList);
 
