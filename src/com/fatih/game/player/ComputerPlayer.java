@@ -1,4 +1,7 @@
-package com.fatih.game;
+package com.fatih.game.player;
+
+import com.fatih.game.Coordinate;
+import com.fatih.game.GameBoard;
 
 public class ComputerPlayer implements Player {
 
@@ -14,16 +17,16 @@ public class ComputerPlayer implements Player {
 	}
 
 	@Override
-	public int[] getInput(GameBoard gameBoard) {
+	public Coordinate getInput(GameBoard gameBoard) {
 		return findEmptyCell(gameBoard);
 	}
 
-	private int[] findEmptyCell(GameBoard gameBoard) {
+	private Coordinate findEmptyCell(GameBoard gameBoard) {
 		Character[][] boardCopy = gameBoard.getBoardCopy();
 		for (int i = 0; i < boardCopy.length; i++) {
 			for (int j = 0; j < boardCopy.length; j++) {
 				if (boardCopy[i][j] == GameBoard.EMPTY_CELL_CHAR) {
-					return new int[] { i + 1, j + 1 };
+					return new Coordinate(i + 1, j + 1);
 				}
 			}
 		}

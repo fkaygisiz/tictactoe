@@ -36,12 +36,12 @@ public class GameBoard {
 
 	}
 
-	public boolean isEmpty(int x, int y) {
-		return board[x - 1][y - 1] == EMPTY_CELL_CHAR;
+	public boolean isEmpty(Coordinate coordinate) {
+		return board[coordinate.getX() - 1][coordinate.getY() - 1] == EMPTY_CELL_CHAR;
 	}
 
-	public void setValue(int x, int y, Character value) {
-		setRealValue(x - 1, y - 1, value);
+	public void setValue(Coordinate coordinate, Character value) {
+		setRealValue(coordinate.getX() - 1, coordinate.getY() - 1, value);
 	}
 
 	private void setRealValue(int x, int y, Character value) {
@@ -104,5 +104,5 @@ public class GameBoard {
 				.findAny();
 		return emptyCell.isPresent();
 	}
-	
+
 }

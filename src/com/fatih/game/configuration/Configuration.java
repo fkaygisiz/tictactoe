@@ -1,13 +1,13 @@
-package com.fatih.game;
+package com.fatih.game.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Configuration {
 
-	private char firstPlayerSign;
-	private char secondPlayerSign;
-	private char thirdPlayerSign;
+	private char firstPlayerSymbol;
+	private char secondPlayerSymbol;
+	private char thirdPlayerSymbol;
 
 	private int boardLength;
 
@@ -15,28 +15,28 @@ public class Configuration {
 
 	private List<String> validationIssues = new ArrayList<>();
 
-	public char getFirstPlayerSign() {
-		return firstPlayerSign;
+	public char getFirstPlayerSymbol() {
+		return firstPlayerSymbol;
 	}
 
-	public void setFirstPlayerSign(char firstPlayerSign) {
-		this.firstPlayerSign = firstPlayerSign;
+	public void setFirstPlayerSymbol(char firstPlayerSymbol) {
+		this.firstPlayerSymbol = firstPlayerSymbol;
 	}
 
-	public char getSecondPlayerSign() {
-		return secondPlayerSign;
+	public char getSecondPlayerSymbol() {
+		return secondPlayerSymbol;
 	}
 
-	public void setSecondPlayerSign(char secondPlayerSign) {
-		this.secondPlayerSign = secondPlayerSign;
+	public void setSecondPlayerSymbol(char secondPlayerSymbol) {
+		this.secondPlayerSymbol = secondPlayerSymbol;
 	}
 
-	public char getThirdPlayerSign() {
-		return thirdPlayerSign;
+	public char getThirdPlayerSymbol() {
+		return thirdPlayerSymbol;
 	}
 
-	public void setThirdPlayerSign(char thirdPlayerSign) {
-		this.thirdPlayerSign = thirdPlayerSign;
+	public void setThirdPlayerSymbol(char thirdPlayerSymbol) {
+		this.thirdPlayerSymbol = thirdPlayerSymbol;
 	}
 
 	public int getBoardLength() {

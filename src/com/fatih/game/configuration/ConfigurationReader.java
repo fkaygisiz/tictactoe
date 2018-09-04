@@ -1,4 +1,4 @@
-package com.fatih.game;
+package com.fatih.game.configuration;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 public class ConfigurationReader {
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		ConfigurationReader cr = new ConfigurationReader();
-		Configuration configurationFromPath = cr.getConfigurationFromPath("c://tictactoe.txt");
-		if(!configurationFromPath.isValid()) {
+		Configuration configurationFromPath = cr.getConfigurationFromPath("c://temp/tictactoe.txt");
+		if (!configurationFromPath.isValid()) {
 			configurationFromPath.getValidationIssues().stream().forEach(System.out::println);
 		}
-	}
+	}*/
 
 	public Configuration getConfigurationFromPath(String resourceFileName) {
 		Configuration configuration = new Configuration();
@@ -29,25 +29,26 @@ public class ConfigurationReader {
 			if (configurationSet.size() != 4) {
 				configuration.setValid(false);
 				configuration.addValidationIssue(
-						"Player signs should be different and there should only 4 configuration options exist.");
+						"Player Symbols should be different and there should only 4 configuration options exist.");
 				return configuration;
 			}
-			
-			String firstPlayerSign = configurationList.get(0);
-			String secondPlayerSign = configurationList.get(1);
-			String computerSign = configurationList.get(2);
-			checkPlayerSignLength(firstPlayerSign, configuration);
-			checkPlayerSignLength(secondPlayerSign, configuration);
-			checkPlayerSignLength(computerSign, configuration);
-			configuration.setFirstPlayerSign(firstPlayerSign.charAt(0));
-			configuration.setSecondPlayerSign(secondPlayerSign.charAt(0));
-			configuration.setThirdPlayerSign(computerSign.charAt(0));
 
-			
+			String firstPlayerSymbol = configurationList.get(0);
+			String secondPlayerSymbol = configurationList.get(1);
+			String computerSymbol = configurationList.get(2);
+			checkPlayerSymbolLength(firstPlayerSymbol, configuration);
+			checkPlayerSymbolLength(secondPlayerSymbol, configuration);
+			checkPlayerSymbolLength(computerSymbol, configuration);
+			configuration.setFirstPlayerSymbol(firstPlayerSymbol.charAt(0));
+			configuration.setSecondPlayerSymbol(secondPlayerSymbol.charAt(0));
+			configuration.setThirdPlayerSymbol(computerSymbol.charAt(0));
+
 			checkBoardSize(configurationList.get(3), configuration);
 			configuration.setBoardLength(Integer.valueOf(configurationList.get(3)));
+			configuration.setValid(true);
 		} catch (IOException e) {
-			configuration.addValidationIssue("An exception occured while reading comfiguration file. File path is " + resourceFileName);
+			configuration.addValidationIssue(
+					"An exception occured while reading comfiguration file. File path is " + resourceFileName);
 			configuration.setValid(false);
 		}
 		return configuration;
@@ -69,10 +70,10 @@ public class ConfigurationReader {
 
 	}
 
-	private void checkPlayerSignLength(String playerSign, Configuration configuration) {
-		if (playerSign.length() != 1) {
+	private void checkPlayerSymbolLength(String playerSymbol, Configuration configuration) {
+		if (playerSymbol.length() != 1) {
 			configuration.setValid(false);
-			configuration.addValidationIssue(playerSign + " should be one character!");
+			configuration.addValidationIssue(playerSymbol + " should be one character!");
 		}
 	}
 
