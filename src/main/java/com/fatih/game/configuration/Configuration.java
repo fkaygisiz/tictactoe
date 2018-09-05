@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Configuration {
 
+	public static final char EMPTY_CELL_CHAR = '-';
+
 	private char firstPlayerSymbol;
 	private char secondPlayerSymbol;
 	private char thirdPlayerSymbol;

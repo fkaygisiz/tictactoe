@@ -11,17 +11,10 @@ import java.util.stream.Stream;
 
 public class ConfigurationReader {
 
-	/*public static void main(String[] args) {
-		ConfigurationReader cr = new ConfigurationReader();
-		Configuration configurationFromPath = cr.getConfigurationFromPath("c://temp/tictactoe.txt");
-		if (!configurationFromPath.isValid()) {
-			configurationFromPath.getValidationIssues().stream().forEach(System.out::println);
-		}
-	}*/
-
 	public Configuration getConfigurationFromPath(String resourceFileName) {
 		Configuration configuration = new Configuration();
 		try {
+			configuration.setValid(true);
 			List<String> configurationList = getResourceFileAsString(resourceFileName);
 			System.out.println(configurationList);
 			System.out.println("*******");
@@ -36,16 +29,15 @@ public class ConfigurationReader {
 			String firstPlayerSymbol = configurationList.get(0);
 			String secondPlayerSymbol = configurationList.get(1);
 			String computerSymbol = configurationList.get(2);
-			checkPlayerSymbolLength(firstPlayerSymbol, configuration);
-			checkPlayerSymbolLength(secondPlayerSymbol, configuration);
-			checkPlayerSymbolLength(computerSymbol, configuration);
+			checkSymbol(firstPlayerSymbol, configuration);
+			checkSymbol(secondPlayerSymbol, configuration);
+			checkSymbol(computerSymbol, configuration);
 			configuration.setFirstPlayerSymbol(firstPlayerSymbol.charAt(0));
 			configuration.setSecondPlayerSymbol(secondPlayerSymbol.charAt(0));
 			configuration.setThirdPlayerSymbol(computerSymbol.charAt(0));
 
 			checkBoardSize(configurationList.get(3), configuration);
 			configuration.setBoardLength(Integer.valueOf(configurationList.get(3)));
-			configuration.setValid(true);
 		} catch (IOException e) {
 			configuration.addValidationIssue(
 					"An exception occured while reading comfiguration file. File path is " + resourceFileName);
@@ -70,16 +62,28 @@ public class ConfigurationReader {
 
 	}
 
-	private void checkPlayerSymbolLength(String playerSymbol, Configuration configuration) {
+	private void checkSymbol(String playerSymbol, Configuration configuration) {
+		checkSymbolLength(playerSymbol, configuration);
+		checkReservedSymbol(playerSymbol, configuration);
+	}
+
+	private void checkSymbolLength(String playerSymbol, Configuration configuration) {
 		if (playerSymbol.length() != 1) {
 			configuration.setValid(false);
 			configuration.addValidationIssue(playerSymbol + " should be one character!");
 		}
 	}
+	
+	private void checkReservedSymbol(String playerSymbol, Configuration configuration) {
+		if (Configuration.EMPTY_CELL_CHAR == playerSymbol.charAt(0) ) {
+			configuration.setValid(false);
+			configuration.addValidationIssue(Configuration.EMPTY_CELL_CHAR + " cannot be used as a symbol!");
+		}
+	}
 
 	private List<String> getResourceFileAsString(String fileName) throws IOException {
 		Stream<String> stream = Files.lines(Paths.get(fileName));
-		List<String> result = stream.map(e -> e.trim()).filter(e -> e.length() > 0).collect(Collectors.toList());
+		List<String> result = stream.map(String::trim).filter(e -> e.length() > 0).collect(Collectors.toList());
 		stream.close();
 		return result;
 

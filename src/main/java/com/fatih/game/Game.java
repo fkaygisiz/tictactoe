@@ -11,8 +11,12 @@ public class Game {
 
 	public static void main(String[] args) {
 		Game game = new Game();
+		game.start("c://temp/tictactoe.txt");
+	}
+
+	public void start(String configurationPath) {
 		ConfigurationReader configurationReader = new ConfigurationReader();
-		Configuration configuration = configurationReader.getConfigurationFromPath("c://temp/tictactoe.txt");
+		Configuration configuration = configurationReader.getConfigurationFromPath(configurationPath);
 		if (!configuration.isValid()) {
 			configuration.getValidationIssues().stream().forEach(System.out::println);
 			System.out.println("******");
@@ -22,11 +26,11 @@ public class Game {
 
 			GameBoard gameBoard = new GameBoard(configuration.getBoardLength());
 			gameBoard.print();
-			game.play(playerList, gameBoard);
+			this.play(playerList, gameBoard);
 		}
 	}
 
-	public void play(List<Player> playerList, GameBoard gameBoard) {
+	private void play(List<Player> playerList, GameBoard gameBoard) {
 		boolean gameIsOver = false;
 		while (!gameIsOver) {
 			for (Player player : playerList) {

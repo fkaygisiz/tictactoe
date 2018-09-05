@@ -6,9 +6,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import com.fatih.game.configuration.Configuration;
+
 public class GameBoard {
 
-	public static final char EMPTY_CELL_CHAR = '-';
 	private int length;
 	private Character[][] board;
 
@@ -30,14 +31,14 @@ public class GameBoard {
 	private void fillBoard(int length2) {
 		for (int l = 0; l < length2; l++) {
 			for (int w = 0; w < length2; w++) {
-				setRealValue(l, w, EMPTY_CELL_CHAR);
+				setRealValue(l, w, Configuration.EMPTY_CELL_CHAR);
 			}
 		}
 
 	}
 
 	public boolean isEmpty(Coordinate coordinate) {
-		return board[coordinate.getX() - 1][coordinate.getY() - 1] == EMPTY_CELL_CHAR;
+		return board[coordinate.getX() - 1][coordinate.getY() - 1] == Configuration.EMPTY_CELL_CHAR;
 	}
 
 	public void setValue(Coordinate coordinate, Character value) {
@@ -94,13 +95,13 @@ public class GameBoard {
 	}
 
 	private boolean isCharactersAllTheSame(Character[] characters) {
-		HashSet<Character> characterSet = new HashSet<Character>(Arrays.asList(characters));
-		return characterSet.size() == 1 && !characterSet.contains(EMPTY_CELL_CHAR);
+		HashSet<Character> characterSet = new HashSet<>(Arrays.asList(characters));
+		return characterSet.size() == 1 && !characterSet.contains(Configuration.EMPTY_CELL_CHAR);
 	}
 
 	private Boolean isThereAnyEmptyCell() {
 		Optional<Character> emptyCell = Arrays.stream(board) // 'array' is two-dimensional
-				.flatMap(Arrays::stream).collect(Collectors.toList()).stream().filter(e -> e.equals(EMPTY_CELL_CHAR))
+				.flatMap(Arrays::stream).collect(Collectors.toList()).stream().filter(e -> e.equals(Configuration.EMPTY_CELL_CHAR))
 				.findAny();
 		return emptyCell.isPresent();
 	}

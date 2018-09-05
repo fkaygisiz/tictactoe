@@ -2,6 +2,7 @@ package com.fatih.game.player;
 
 import com.fatih.game.Coordinate;
 import com.fatih.game.GameBoard;
+import com.fatih.game.configuration.Configuration;
 
 public class ComputerPlayer implements Player {
 
@@ -25,7 +26,7 @@ public class ComputerPlayer implements Player {
 		Character[][] boardCopy = gameBoard.getBoardCopy();
 		for (int i = 0; i < boardCopy.length; i++) {
 			for (int j = 0; j < boardCopy.length; j++) {
-				if (boardCopy[i][j] == GameBoard.EMPTY_CELL_CHAR) {
+				if (boardCopy[i][j] == Configuration.EMPTY_CELL_CHAR) {
 					return new Coordinate(i + 1, j + 1);
 				}
 			}

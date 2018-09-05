@@ -9,21 +9,21 @@ import com.fatih.game.GameBoard;
 public class HumanInputTaker {
 
 	private String userInputRegEx;
+	private Scanner in = new Scanner(System.in);
 
 	public HumanInputTaker(String userInputRegEx) {
 		this.userInputRegEx = userInputRegEx;
 	}
 
-	private Scanner in = new Scanner(System.in);
-
 	public Coordinate getInput(GameBoard gameBoard) {
 		String userInput = in.next();
-		boolean isRegularInput = userInput.matches(userInputRegEx);
-		if (!isRegularInput) {
+		boolean isValid = userInput.matches(userInputRegEx);
+		if (!isValid) {
 			System.out.println("Please enter a valid value:");
 			return getInput(gameBoard);
 		}
-		int[] inputArray = Arrays.asList(userInput.split(",")).stream().map(Integer::valueOf).mapToInt(Integer::intValue).toArray();
+		int[] inputArray = Arrays.asList(userInput.split(",")).stream().map(Integer::valueOf)
+				.mapToInt(Integer::intValue).toArray();
 		return new Coordinate(inputArray[0], inputArray[1]);
 	}
 
