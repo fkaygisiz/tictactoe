@@ -73,9 +73,9 @@ public class ConfigurationReader {
 			configuration.addValidationIssue(playerSymbol + " should be one character!");
 		}
 	}
-	
+
 	private void checkReservedSymbol(String playerSymbol, Configuration configuration) {
-		if (Configuration.EMPTY_CELL_CHAR == playerSymbol.charAt(0) ) {
+		if (Configuration.EMPTY_CELL_CHAR == playerSymbol.charAt(0)) {
 			configuration.setValid(false);
 			configuration.addValidationIssue(Configuration.EMPTY_CELL_CHAR + " cannot be used as a symbol!");
 		}

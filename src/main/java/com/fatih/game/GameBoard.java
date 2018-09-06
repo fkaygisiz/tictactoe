@@ -1,9 +1,10 @@
 package com.fatih.game;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import com.fatih.game.configuration.Configuration;
@@ -11,10 +12,10 @@ import com.fatih.game.configuration.Configuration;
 public class GameBoard {
 
 	private int length;
-	private Character[][] board;
+	private Map<Coordinate, Character> board = new HashMap<>();
 
-	public Character[][] getBoardCopy() {
-		return Arrays.copyOf(board, board.length);
+	public Map<Coordinate, Character> getBoardCopy() {
+		return Collections.unmodifiableMap(board);
 	}
 
 	public GameBoard(int length) {
@@ -23,30 +24,29 @@ public class GameBoard {
 	}
 
 	private void initializeBoard(int length) {
-		board = new Character[length][length];
 		fillBoard(length);
 
 	}
 
 	private void fillBoard(int length2) {
-		for (int l = 0; l < length2; l++) {
-			for (int w = 0; w < length2; w++) {
-				setRealValue(l, w, Configuration.EMPTY_CELL_CHAR);
+		for (int l = 1; l < length2 + 1; l++) {
+			for (int w = 1; w < length2 + 1; w++) {
+				setValue(new Coordinate(l, w), Configuration.EMPTY_CELL_CHAR);
 			}
 		}
 
 	}
 
 	public boolean isEmpty(Coordinate coordinate) {
-		return board[coordinate.getX() - 1][coordinate.getY() - 1] == Configuration.EMPTY_CELL_CHAR;
+		return board.get(coordinate) == Configuration.EMPTY_CELL_CHAR;
 	}
 
 	public void setValue(Coordinate coordinate, Character value) {
-		setRealValue(coordinate.getX() - 1, coordinate.getY() - 1, value);
+		setRealValue(coordinate, value);
 	}
 
-	private void setRealValue(int x, int y, Character value) {
-		board[x][y] = value;
+	private void setRealValue(Coordinate coordinate, Character value) {
+		board.put(coordinate, value);
 	}
 
 	public void print() {
@@ -55,7 +55,7 @@ public class GameBoard {
 		for (int l = 0; l < this.length; l++) {
 			System.out.print(getPadded(String.valueOf(l + 1)));
 			for (int w = 0; w < this.length; w++) {
-				System.out.print(getPadded(String.valueOf(board[l][w])));
+				System.out.print(getPadded(String.valueOf(board.get(new Coordinate(l + 1, w + 1)))));
 			}
 			System.out.println("");
 		}
@@ -74,21 +74,23 @@ public class GameBoard {
 	}
 
 	private boolean hasSomebodyWin() {
-		Character[] downCross = new Character[board.length];
-		Character[] upperCross = new Character[board.length];
-		for (int i = 0; i < board.length; i++) {
-			if (isCharactersAllTheSame(board[i])) {
+		Character[] downCross = new Character[this.length];
+		Character[] upperCross = new Character[this.length];
+		for (int i = 0; i < this.length; i++) {
+			int x = i;
+			if (isCharactersAllTheSame(IntStream.range(0, this.length)
+					.mapToObj(e -> board.get(new Coordinate(x + 1, e + 1))).toArray(Character[]::new))) {
 				return true;
 			}
-			Character[] column = new Character[board.length];
-			for (int j = 0; j < board.length; j++) {
-				column[j] = board[j][i];
+			Character[] column = new Character[this.length];
+			for (int j = 0; j < this.length; j++) {
+				column[j] = board.get(new Coordinate(j + 1, i + 1));
 			}
 			if (isCharactersAllTheSame(column)) {
 				return true;
 			}
-			downCross[i] = board[i][i];
-			upperCross[i] = board[board.length - 1 - i][i];
+			downCross[i] = board.get(new Coordinate(i + 1, i + 1));
+			upperCross[i] = board.get(new Coordinate(this.length - i, i + 1));
 		}
 		return isCharactersAllTheSame(upperCross) || isCharactersAllTheSame(downCross);
 
@@ -100,10 +102,8 @@ public class GameBoard {
 	}
 
 	private Boolean isThereAnyEmptyCell() {
-		Optional<Character> emptyCell = Arrays.stream(board) // 'array' is two-dimensional
-				.flatMap(Arrays::stream).collect(Collectors.toList()).stream().filter(e -> e.equals(Configuration.EMPTY_CELL_CHAR))
-				.findAny();
-		return emptyCell.isPresent();
+		board.values().stream().anyMatch(e -> e.equals(Configuration.EMPTY_CELL_CHAR));
+		return board.values().stream().filter(e -> e.equals(Configuration.EMPTY_CELL_CHAR)).findAny().isPresent();
 	}
 
 }

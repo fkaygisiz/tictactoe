@@ -36,6 +36,7 @@ public class Game {
 			for (Player player : playerList) {
 				System.out.println(player.getSymbol() + "'s turn. Please enter a value(eg 3,2)");
 				Coordinate input = player.getInput(gameBoard);
+				System.out.println(player.getSymbol() + " fills " + input.getPrettyFormat());
 				gameBoard.setValue(input, player.getSymbol());
 				gameBoard.print();
 				gameIsOver = gameBoard.isGameFinished();
