@@ -23,7 +23,7 @@ public class ComputerPlayerTest {
 
 	@Test
 	public void getEmptyInput() throws Exception {
-		//only one cell will be empty
+		// only one cell will be empty
 		IntStream.range(0, 8).forEach(e -> gameBoard.setValue(new Coordinate(e / 3 + 1, e % 3 + 1), 'a'));
 		gameBoard.print();
 		Character symbol = 'c';

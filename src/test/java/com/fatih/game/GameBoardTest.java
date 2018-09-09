@@ -57,7 +57,7 @@ public class GameBoardTest {
 	public void isGameFinished_byWinningGame() throws Exception {
 		Character value = 'x';
 		IntStream.range(1, 4).forEach(e -> gameBoard.setValue(new Coordinate(1, e), value));
-		boolean actual = gameBoard.isGameFinished();
+		boolean actual = gameBoard.hasSomebodyWon();
 		boolean expected = true;
 		assertThat(actual, is(equalTo(expected)));
 	}
@@ -67,7 +67,7 @@ public class GameBoardTest {
 		Character value = 'x';
 		IntStream.range(1, 4).forEach(e -> gameBoard.setValue(new Coordinate(e, e), value));
 
-		boolean actual = gameBoard.isGameFinished();
+		boolean actual = gameBoard.hasSomebodyWon();
 		boolean expected = true;
 		assertThat(actual, is(equalTo(expected)));
 	}
@@ -76,7 +76,7 @@ public class GameBoardTest {
 	public void isGameFinished_byWinningGame_reverseCrossComplete() throws Exception {
 		Character value = 'x';
 		IntStream.range(1, 4).forEach(e -> gameBoard.setValue(new Coordinate(e, 4 - e), value));
-		boolean actual = gameBoard.isGameFinished();
+		boolean actual = gameBoard.hasSomebodyWon();
 		boolean expected = true;
 		assertThat(actual, is(equalTo(expected)));
 	}
@@ -92,7 +92,7 @@ public class GameBoardTest {
 			gameBoard.setValue(new Coordinate(i, 3), characters[charactersIndex++ % length]);
 		}
 		gameBoard.print();
-		boolean actual = gameBoard.isGameFinished();
+		boolean actual = !gameBoard.isThereAnyEmptyCell();
 		boolean expected = true;
 		assertThat(actual, is(equalTo(expected)));
 	}

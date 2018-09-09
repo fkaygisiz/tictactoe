@@ -69,11 +69,7 @@ public class GameBoard {
 		return String.format("%2s ", e);
 	}
 
-	public boolean isGameFinished() {
-		return !isThereAnyEmptyCell() || hasSomebodyWin();
-	}
-
-	private boolean hasSomebodyWin() {
+	public boolean hasSomebodyWon() {
 		Character[] downCross = new Character[this.length];
 		Character[] upperCross = new Character[this.length];
 		for (int i = 0; i < this.length; i++) {
@@ -101,9 +97,9 @@ public class GameBoard {
 		return characterSet.size() == 1 && !characterSet.contains(Configuration.EMPTY_CELL_CHAR);
 	}
 
-	private Boolean isThereAnyEmptyCell() {
+	public boolean isThereAnyEmptyCell() {
 		board.values().stream().anyMatch(e -> e.equals(Configuration.EMPTY_CELL_CHAR));
-		return board.values().stream().filter(e -> e.equals(Configuration.EMPTY_CELL_CHAR)).findAny().isPresent();
+		return board.values().stream().anyMatch(e -> e.equals(Configuration.EMPTY_CELL_CHAR));
 	}
 
 }

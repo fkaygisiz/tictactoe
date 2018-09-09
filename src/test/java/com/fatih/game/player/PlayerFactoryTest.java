@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fatih.game.configuration.Configuration;
-import com.fatih.game.player.Player;
-import com.fatih.game.player.PlayerFactory;
 
 public class PlayerFactoryTest {
 

@@ -60,9 +60,9 @@ public class ConfigurationReaderTest {
 		assertThat(actual.isValid(), equalTo(false));
 		assertThat(actual.getValidationIssues().size(), equalTo(1));
 		assertThat(actual.getValidationIssues().get(0),
-				containsString("An exception occured while reading comfiguration file. File path is "));
+				containsString("An exception occured while reading configuration file. File path is "));
 	}
-	
+
 	@Test
 	public void getConfigurationFromPath_invalidBoardSize() throws Exception {
 		ConfigurationReader target = new ConfigurationReader();
@@ -71,10 +71,10 @@ public class ConfigurationReaderTest {
 		String resourceFilePath = path.toString();
 		Configuration actual = target.getConfigurationFromPath(resourceFilePath);
 		assertThat(actual.isValid(), equalTo(false));
-		assertThat(actual.getValidationIssues().stream().filter(e->e.equals("Board size should be between 3 and 10.")).findAny().isPresent(),
-				equalTo(true));
+		assertThat(actual.getValidationIssues().stream().filter(e -> e.equals("Board size should be between 3 and 10."))
+				.findAny().isPresent(), equalTo(true));
 	}
-	
+
 	@Test
 	public void getConfigurationFromPath_reservedSymbol() throws Exception {
 		ConfigurationReader target = new ConfigurationReader();
@@ -83,7 +83,8 @@ public class ConfigurationReaderTest {
 		String resourceFilePath = path.toString();
 		Configuration actual = target.getConfigurationFromPath(resourceFilePath);
 		assertThat(actual.isValid(), equalTo(false));
-		assertThat(actual.getValidationIssues().stream().filter(e->e.contains(Configuration.EMPTY_CELL_CHAR + " cannot be used as a symbol!")).findAny().isPresent(),
-				equalTo(true));
+		assertThat(actual.getValidationIssues().stream()
+				.filter(e -> e.contains(Configuration.EMPTY_CELL_CHAR + " cannot be used as a symbol!")).findAny()
+				.isPresent(), equalTo(true));
 	}
 }

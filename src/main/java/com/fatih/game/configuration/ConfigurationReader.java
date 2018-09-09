@@ -40,7 +40,12 @@ public class ConfigurationReader {
 			configuration.setBoardLength(Integer.valueOf(configurationList.get(3)));
 		} catch (IOException e) {
 			configuration.addValidationIssue(
-					"An exception occured while reading comfiguration file. File path is " + resourceFileName);
+					"An exception occured while reading configuration file. File path is " + resourceFileName);
+			configuration.setValid(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			configuration
+					.addValidationIssue("An exception occured while reading configuration file. " + e.getMessage());
 			configuration.setValid(false);
 		}
 		return configuration;

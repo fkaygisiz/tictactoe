@@ -11,7 +11,11 @@ public class Game {
 
 	public static void main(String[] args) {
 		Game game = new Game();
-		game.start("c://temp/tictactoe.txt");
+		if (args.length > 0) {
+			game.start(args[0]);
+		} else {
+			System.out.println("Please provide configuration path!");
+		}
 	}
 
 	public void start(String configurationPath) {
@@ -31,17 +35,24 @@ public class Game {
 	}
 
 	private void play(List<Player> playerList, GameBoard gameBoard) {
-		boolean gameIsOver = false;
-		while (!gameIsOver) {
+		boolean isGameOver = false;
+		while (!isGameOver) {
 			for (Player player : playerList) {
 				System.out.println(player.getSymbol() + "'s turn. Please enter a value(eg 3,2)");
 				Coordinate input = player.getInput(gameBoard);
 				System.out.println(player.getSymbol() + " fills " + input.getPrettyFormat());
 				gameBoard.setValue(input, player.getSymbol());
 				gameBoard.print();
-				gameIsOver = gameBoard.isGameFinished();
-				if (gameIsOver) {
+				boolean somebodyWon = gameBoard.hasSomebodyWon();
+				if (somebodyWon) {
 					System.out.println("!!!!! " + player.getSymbol() + " won the game!!!!!");
+					isGameOver = true;
+					break;
+				}
+				boolean isBoardFull = !gameBoard.isThereAnyEmptyCell();
+				if(isBoardFull) {
+					System.out.println("!!!!! Great game, Tie !!!!!");
+					isGameOver = true;
 					break;
 				}
 			}

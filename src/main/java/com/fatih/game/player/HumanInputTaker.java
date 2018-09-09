@@ -16,7 +16,7 @@ public class HumanInputTaker {
 	}
 
 	public Coordinate getInput(GameBoard gameBoard) {
-		String userInput = in.next();
+		String userInput = getInputString();
 		boolean isValid = userInput.matches(userInputRegEx);
 		if (!isValid) {
 			System.out.println("Please enter a valid value:");
@@ -25,6 +25,10 @@ public class HumanInputTaker {
 		int[] inputArray = Arrays.asList(userInput.split(",")).stream().map(Integer::valueOf)
 				.mapToInt(Integer::intValue).toArray();
 		return new Coordinate(inputArray[0], inputArray[1]);
+	}
+
+	private String getInputString() {
+		return in.next();
 	}
 
 }
