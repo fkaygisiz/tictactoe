@@ -26,15 +26,7 @@ public class ConfigurationReader {
 				return configuration;
 			}
 
-			String firstPlayerSymbol = configurationList.get(0);
-			String secondPlayerSymbol = configurationList.get(1);
-			String computerSymbol = configurationList.get(2);
-			checkSymbol(firstPlayerSymbol, configuration);
-			checkSymbol(secondPlayerSymbol, configuration);
-			checkSymbol(computerSymbol, configuration);
-			configuration.setFirstPlayerSymbol(firstPlayerSymbol.charAt(0));
-			configuration.setSecondPlayerSymbol(secondPlayerSymbol.charAt(0));
-			configuration.setThirdPlayerSymbol(computerSymbol.charAt(0));
+			setPlayerSymbols(configuration, configurationList);
 
 			checkBoardSize(configurationList.get(3), configuration);
 			configuration.setBoardLength(Integer.valueOf(configurationList.get(3)));
@@ -50,6 +42,18 @@ public class ConfigurationReader {
 		}
 		return configuration;
 
+	}
+
+	private void setPlayerSymbols(Configuration configuration, List<String> configurationList) {
+		String firstPlayerSymbol = configurationList.get(0);
+		String secondPlayerSymbol = configurationList.get(1);
+		String computerSymbol = configurationList.get(2);
+		checkSymbol(firstPlayerSymbol, configuration);
+		checkSymbol(secondPlayerSymbol, configuration);
+		checkSymbol(computerSymbol, configuration);
+		configuration.setFirstPlayerSymbol(firstPlayerSymbol.charAt(0));
+		configuration.setSecondPlayerSymbol(secondPlayerSymbol.charAt(0));
+		configuration.setThirdPlayerSymbol(computerSymbol.charAt(0));
 	}
 
 	private void checkBoardSize(String boardSizeString, Configuration configuration) {
